@@ -183,7 +183,23 @@ tno *buscaRemove(tno *raiz, int chave){
 		raiz->esq = buscaRemove(raiz->esq,chave);
 	else
 	    raiz->dir = buscaRemove(raiz->dir,chave);
-	
+		raiz->fb = altura(raiz->dir) - altura(raiz->esq);
+	switch(raiz->fb){
+	case -2: if (raiz->esq->fb <=0)
+					raiz=rotacaoDir(raiz); //rotaçao simples para a direita 
+			else{ //rotacao dupla para a direita 
+				raiz->esq = rotacaoEsq(raiz->esq); 
+				raiz = rotacaoDir(raiz); 
+			}
+			break; 
+	case 2: if (raiz->dir->fb >=0)
+					raiz= rotacaoEsq(raiz); //rotaçao simples para a esquerda 
+			else{ //rotacao dupla para a esquerda 
+				raiz->dir = rotacaoDir(raiz->dir); 
+				raiz = rotacaoEsq(raiz); 
+			} // fim do else 
+			break;
+	}//fim do switch 
 	return raiz;				
 }
 //------------------------
